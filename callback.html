@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>TikTok authorization</title>
+<style>body{font-family:system-ui,sans-serif;max-width:720px;margin:40px auto;padding:0 20px}code{word-break:break-all;display:block;background:#f3f3f3;padding:12px;border-radius:6px}</style></head>
+<body>
+<h1>Authorization received</h1>
+<p>Copy this code into the upload script. This page does not store or send it anywhere.</p>
+<code id="out">No code found in the URL.</code>
+<script>
+var p=new URLSearchParams(location.search);
+var c=p.get("code"), e=p.get("error_description")||p.get("error");
+document.getElementById("out").textContent = c ? c : (e ? "Error: "+e : "No code found in the URL.");
+</script>
+</body>
+</html>
