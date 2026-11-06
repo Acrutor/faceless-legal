@@ -1,15 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>TikTok authorization</title>
-<style>body{font-family:system-ui,sans-serif;max-width:720px;margin:40px auto;padding:0 20px}code{word-break:break-all;display:block;background:#f3f3f3;padding:12px;border-radius:6px}</style></head>
+<style>body{font-family:system-ui,sans-serif;max-width:720px;margin:40px auto;padding:0 20px;line-height:1.5}textarea{width:100%;height:120px;font-family:monospace;font-size:13px}button{margin-top:8px;padding:6px 14px;font-size:14px;cursor:pointer}</style></head>
 <body>
-<h1>Authorization received</h1>
-<p>Copy this code into the upload script. This page does not store or send it anywhere.</p>
-<code id="out">No code found in the URL.</code>
+<h1 id="titulo">Autorización recibida · Authorization received</h1>
+<p>Copia esta dirección completa y pégala en la terminal del script de subida. Esta página no guarda ni envía nada.<br>
+<small>Copy this full address into the upload script's terminal. This page does not store or send anything.</small></p>
+<textarea id="out" readonly></textarea><br>
+<button id="copiar">Copiar · Copy</button> <span id="ok"></span>
 <script>
-var p=new URLSearchParams(location.search);
-var c=p.get("code"), e=p.get("error_description")||p.get("error");
-document.getElementById("out").textContent = c ? c : (e ? "Error: "+e : "No code found in the URL.");
+var p = new URLSearchParams(location.search);
+var e = p.get("error_description") || p.get("error");
+var out = document.getElementById("out");
+out.value = location.href;
+if (!p.get("code")) document.getElementById("titulo").textContent = e ? "Error: " + e : "No hay código en la dirección · No code found";
+document.getElementById("copiar").onclick = function () {
+  out.select();
+  (navigator.clipboard ? navigator.clipboard.writeText(out.value) : Promise.reject()).then(
+    function () { document.getElementById("ok").textContent = "Copiada ✔"; },
+    function () { document.execCommand("copy"); document.getElementById("ok").textContent = "Copiada ✔"; });
+};
 </script>
 </body>
 </html>
